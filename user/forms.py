@@ -5,10 +5,6 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class UserEditForm(forms.ModelForm):
-    
-    error_css_class = 'is-invalid'
-    required_css_class = 'required'
-
     class Meta:
         model = User
         fields = (

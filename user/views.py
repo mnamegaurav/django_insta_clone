@@ -21,4 +21,13 @@ class ProfileEditView(View):
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        pass
+        form = self.form_class(request.POST, request.FILES, instance=request.user)
+
+        if form.is_valid():
+            form.save()
+        else:
+            for field in form.errors:
+                form[field].field.widget.attrs['class'] += ' is-invalid'
+
+        context = { 'form': form }
+        return render(request, self.template_name, context)
