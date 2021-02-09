@@ -19,7 +19,7 @@
             <div class="col-12 col-md-9 pl-5">
                 <div class="row userprofile__row__first py-2">
                     <h2 class="username__text mr-4">{{ request.user.username }}</h2>
-                    <a class="edit__profile__btn mx-3 mx-md-4 text-decoration-none text-reset px-2 py-1" href="">Edit Profile</a>
+                    <a class="edit__profile__btn mx-3 mx-md-4 text-decoration-none text-reset px-2 py-1" href="{% url 'profile_edit_view' request.user.username %}">Edit Profile</a>
                     <a class="text-decoration-none text-reset settings__icon d-flex justify-content-center" href="">
                         <span class="fa fa-cog mx-3 mx-md-4"></span>
                     </a>
