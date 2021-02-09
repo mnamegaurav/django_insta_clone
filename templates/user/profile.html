@@ -10,7 +10,7 @@
         <div class="row mb-5 pl-md-5">
             <div class="col-12 col-md-3 d-flex justify-content-center">
                 <label for="upload_profile_pic" class="profile__pic__btn">
-                    <img alt="Change Profile Photo" src="{{ request.user.picture }}" class="profile__pic">
+                    <img alt="Change Profile Photo" src="{{ request.user.picture.url }}" class="profile__pic">
                 </label>
                 <form enctype="multipart/form-data" method="POST" role="presentation">
                     <input accept="image/jpeg,image/png" class="profile__pic__input" type="file" id="upload_profile_pic">
