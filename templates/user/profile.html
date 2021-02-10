@@ -20,7 +20,7 @@
                 <div class="row userprofile__row__first py-2">
                     <h2 class="username__text mr-4">{{ request.user.username }}</h2>
                     <a class="edit__profile__btn mx-3 mx-md-4 text-decoration-none text-reset px-2 py-1" href="{% url 'profile_edit_view' request.user.username %}">Edit Profile</a>
-                    <a class="text-decoration-none text-reset settings__icon d-flex justify-content-center" href="">
+                    <a class="text-decoration-none text-reset settings__icon d-flex justify-content-center" data-toggle="modal" data-target="#settingsList">
                         <span class="fa fa-cog mx-3 mx-md-4"></span>
                     </a>
                 </div>
@@ -55,6 +55,33 @@
                         <h1>Saved Posts</h1>
                     </div>
                 </div>                
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="settingsList" tabindex="-1" aria-labelledby="settingsListLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-0 py-2 text-center">
+                    <div class="p-1 m-0 px-4">
+                        <a href="{% url 'profile_edit_view' request.user.username %}" class="text-reset text-decoration-none">Edit Profile</a>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="p-1 m-0 px-4">
+                        <a href="" class="text-reset text-decoration-none">Change Password</a>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="p-1 m-0 px-4">
+                    <form method="POST" action="{% url 'signout_view' %}">
+                        {% csrf_token %}
+                        <a href="javascript:;" onclick="parentNode.submit();" class="text-reset text-decoration-none">Sign Out</a>
+                    </form>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="p-1 m-0 px-4">
+                        <a data-dismiss="modal" style="cursor: pointer;">Cancel</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
