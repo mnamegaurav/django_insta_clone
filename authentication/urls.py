@@ -1,4 +1,15 @@
 from django.urls import path
+from django.urls import reverse_lazy
+from django.contrib.auth.views import (
+    PasswordResetView, 
+    PasswordResetDoneView,
+    PasswordResetConfirmView,
+    PasswordResetCompleteView,
+    PasswordChangeView,
+    PasswordChangeDoneView,
+    )
+from django.contrib.auth.decorators import login_required
+
 from authentication.views import (
     SignInView,
     SignUpView, 
@@ -6,18 +17,27 @@ from authentication.views import (
     PRView, PRDone, PRConfirm, PRComplete
     )
 
-from django.contrib.auth.views import (
-    PasswordResetView, 
-    PasswordResetDoneView,
-    PasswordResetConfirmView,
-    PasswordResetCompleteView
-    )
-
 
 urlpatterns = [
     path('',  SignInView.as_view(), name='signin_view'),
     path('signup/',  SignUpView.as_view(), name='signup_view'),
     path('signout/',  SignOutView.as_view(), name='signout_view'),
+
+    path(
+        'password/change/', 
+        login_required(PasswordChangeView.as_view(
+                        template_name = 'authentication/password_change.html',
+                        success_url=reverse_lazy('password_change_done_view')
+                    )),
+        name='password_change_view'
+        ),
+    path(
+        'password/change/done/', 
+        login_required(PasswordChangeDoneView.as_view(
+                        template_name = 'authentication/password_change_done.html',
+                    )), 
+        name='password_change_done_view'
+        ),
     
     # path('password/reset/', PRView.as_view(), name='password_reset'),
     # path('password/reset/done/',  PRDone.as_view() ,name='password_reset_done'),
