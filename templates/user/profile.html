@@ -10,11 +10,13 @@
         <div class="row mb-5 pl-md-5">
             <div class="col-12 col-md-3 d-flex justify-content-center">
                 <label for="upload_profile_pic" class="profile__pic__btn">
-                    <img alt="Change Profile Photo" src="{{ request.user.picture.url }}" class="profile__pic">
+                    <a href="{% url 'profile_edit_view' request.user.username %}">
+                        <img alt="Change Profile Photo" src="{{ request.user.picture.url }}" class="profile__pic">
+                    </a>
                 </label>
-                <form enctype="multipart/form-data" method="POST" role="presentation">
+                <!-- <form enctype="multipart/form-data" method="POST" role="presentation">
                     <input accept="image/jpeg,image/png" class="profile__pic__input" type="file" id="upload_profile_pic">
-                </form>
+                </form> -->
             </div>
             <div class="col-12 col-md-9 pl-5">
                 <div class="row userprofile__row__first py-2">
