@@ -49,12 +49,11 @@ class Comment(models.Model):
 class Like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
-    is_like = models.BooleanField(default=True)
     liked_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.is_like)
+        return str(self.post.pk)
 
     def save(self, *args, **kwargs):
         user = get_current_user()
