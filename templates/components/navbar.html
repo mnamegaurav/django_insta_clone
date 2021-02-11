@@ -21,7 +21,11 @@
           </li>
           <li class="nav-item dropdown ml-2">
             <a class="nav-link dropdown-toggle" id="user__avatar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-top: inherit;padding: inherit;">
-              <img src="{{ request.user.picture.url }}" class="rounded-circle z-depth-0">
+              {% if request.user.picture %}
+                <img src="{{ request.user.picture.url }}" class="rounded-circle z-depth-0">
+              {% else %}
+                <img src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png" class="rounded-circle z-depth-0">
+              {% endif %}
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user__avatar">
               <a class="dropdown-item" href="{% url 'profile_view' request.user.username %}">

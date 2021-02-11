@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import View
 
 from user.forms import UserEditForm
@@ -25,9 +25,10 @@ class ProfileEditView(View):
 
         if form.is_valid():
             form.save()
+            return redirect('profile_edit_view', request.user.username)
         else:
             for field in form.errors:
                 form[field].field.widget.attrs['class'] += ' is-invalid'
 
-        context = { 'form': form }
-        return render(request, self.template_name, context)
+            context = { 'form': form }
+            return render(request, self.template_name, context)
