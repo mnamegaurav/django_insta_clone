@@ -1,15 +1,24 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
+from django.contrib.auth import get_user_model
 
 from user.forms import UserEditForm
 # Create your views here.
 
+User = get_user_model()
 
 class ProfileView(View):
     template_name = 'user/profile.html'
     
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        username = kwargs.get('username')
+        try:
+            user = User.objects.get(username=username)
+        except Exception as e:
+            user = None
+
+        context = {'user': user}
+        return render(request, self.template_name, context=context)
 
 
 class ProfileEditView(View):

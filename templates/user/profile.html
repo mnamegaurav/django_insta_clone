@@ -10,57 +10,56 @@
         <div class="row mb-5 pl-md-5">
             <div class="col-12 col-md-3 d-flex justify-content-center">
                 <label for="upload_profile_pic" class="profile__pic__btn">
-                    <a href="{% url 'profile_edit_view' request.user.username %}">
-                        {% if request.user.picture %}
+                    <a href="{% url 'profile_edit_view' user.username %}">
+                        {% if user.picture %}
                         <div>
-                            <img src="{{ request.user.picture.url }}" class="profile__pic">
+                            <img src="{{ user.picture.url }}" class="profile__pic">
                         </div>
                         {% else %}
                             <img src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"  class="profile__pic">
                         {% endif %}
                     </a>
                 </label>
-                <!-- <form enctype="multipart/form-data" method="POST" role="presentation">
-                    <input accept="image/jpeg,image/png" class="profile__pic__input" type="file" id="upload_profile_pic">
-                </form> -->
             </div>
             <div class="col-12 col-md-9 pl-5">
+                {% ifequal user.username request.user.username %}
                 <div class="row userprofile__row__first py-2">
-                    <h2 class="username__text mr-4">{{ request.user.username }}</h2>
-                    <a class="edit__profile__btn mx-3 mx-md-4 text-decoration-none text-reset px-2 py-1" href="{% url 'profile_edit_view' request.user.username %}">Edit Profile</a>
+                    <h2 class="username__text mr-4">{{ user.username }}</h2>
+                    <a class="edit__profile__btn mx-3 mx-md-4 text-decoration-none text-reset px-2 py-1" href="{% url 'profile_edit_view' user.username %}">Edit Profile</a>
                     <a class="text-decoration-none text-reset settings__icon d-flex justify-content-center" data-toggle="modal" data-target="#settingsList">
                         <span class="fa fa-cog mx-3 mx-md-4"></span>
                     </a>
                 </div>
+                {% endifequal %}
                 <div class="row userprofile__row__stats py-2">
                     <span class="mr-3 mr-md-5">
                         <strong>
-                        {{ request.user.posts_count  }}
+                        {{ user.posts_count  }}
                         </strong> posts
                     </span>
                     <span class="mr-3 mr-md-5">
                         <strong>
-                        {{ request.user.followers_count  }}
+                        {{ user.followers_count  }}
                         </strong> followers
                     </span>
                     <span class="mr-3 mr-md-5">
                         <strong>
-                        {{ request.user.followings_count  }}
+                        {{ user.followings_count  }}
                         </strong> following
                     </span>
                 </div>
                 <div class="row user__fullname py-2">
                     <span>
-                        <strong>{{ request.user.full_name }}</strong>
+                        <strong>{{ user.full_name }}</strong>
                     </span>
-                    {% if request.user.bio %}
+                    {% if user.bio %}
                         <span>
-                            {{ request.user.bio }}
+                            {{ user.bio }}
                         </span>
                     {% endif %}
-                    {% if request.user.website %}
+                    {% if user.website %}
                         <span>
-                            <strong><a href="{{ request.user.website }}">{{ request.user.website }}</a></strong>
+                            <strong><a href="{{ user.website }}">{{ user.website }}</a></strong>
                         </span>
                     {% endif %}
                 </div>
@@ -70,8 +69,13 @@
             <div class="col-12">
                 <nav>
                     <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
+                        
                         <a class="nav-item nav-link active text-reset" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Posts</a>
+                        
+                        {% ifequal user.username request.user.username %}
                         <a class="nav-item nav-link text-reset" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Saved</a>
+                        {% endifequal %}
+
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
@@ -81,20 +85,23 @@
                             <img src="{% static 'img/no-posts2.jpg' %}">
                         </div>
                     </div>
+                    {% ifequal user.username request.user.username %}
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                         <h1>Saved Posts</h1>
                     </div>
+                    {% endifequal %}
                 </div>                
             </div>
         </div>
     </div>
 
+    {% ifequal user.username request.user.username %}
     <div class="modal fade" id="settingsList" tabindex="-1" aria-labelledby="settingsListLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body p-0 py-2 text-center">
                     <div class="p-1 m-0 px-4">
-                        <a href="{% url 'profile_edit_view' request.user.username %}" class="text-reset text-decoration-none">Edit Profile</a>
+                        <a href="{% url 'profile_edit_view' user.username %}" class="text-reset text-decoration-none">Edit Profile</a>
                     </div>
                     <div class="dropdown-divider"></div>
                     <div class="p-1 m-0 px-4">
@@ -115,4 +122,5 @@
             </div>
         </div>
     </div>
+    {% endifequal %}
 {% endblock %}
