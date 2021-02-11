@@ -27,9 +27,21 @@
                     </a>
                 </div>
                 <div class="row userprofile__row__stats py-2">
-                    <span class="mr-3 mr-md-5"><strong>0</strong> posts</span>
-                    <span class="mr-3 mr-md-5"><strong>10</strong> followers</span>
-                    <span class="mr-3 mr-md-5"><strong>20</strong> following</span>
+                    <span class="mr-3 mr-md-5">
+                        <strong>
+                        {{ request.user.posts_count  }}
+                        </strong> posts
+                    </span>
+                    <span class="mr-3 mr-md-5">
+                        <strong>
+                        {{ request.user.followers_count  }}
+                        </strong> followers
+                    </span>
+                    <span class="mr-3 mr-md-5">
+                        <strong>
+                        {{ request.user.followings_count  }}
+                        </strong> following
+                    </span>
                 </div>
                 <div class="row user__fullname py-2">
                     <span>

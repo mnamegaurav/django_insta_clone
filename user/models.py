@@ -32,3 +32,18 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+    @property
+    def posts_count(self):
+        count = self.post_set.count()
+        return count
+
+    @property
+    def followers_count(self):
+        count = self.follow_user.filter(is_follow=True).count()
+        return count
+
+    @property
+    def followings_count(self):
+        count = self.follow_follower.filter(is_follow=True).count()
+        return count
