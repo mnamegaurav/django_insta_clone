@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth import get_user_model
+from django.http import HttpResponse
 
 from user.forms import UserEditForm
 # Create your views here.
@@ -15,7 +16,7 @@ class ProfileView(View):
         try:
             user = User.objects.get(username=username)
         except Exception as e:
-            user = None
+            return HttpResponse('<h1>Sorry, this page isn\'t available.</h1>')
 
         context = {'user': user}
         return render(request, self.template_name, context=context)
