@@ -22,7 +22,7 @@
                 </label>
             </div>
             <div class="col-12 col-md-9 pl-5">
-                {% ifequal user.username request.user.username %}
+                {% if user.username == request.user.username %}
                 <div class="row userprofile__row__first py-2">
                     <h2 class="username__text mr-4">{{ user.username }}</h2>
                     <a class="edit__profile__btn mx-3 mx-md-4 text-decoration-none text-reset px-2 py-1" href="{% url 'profile_edit_view' user.username %}">Edit Profile</a>
@@ -30,7 +30,7 @@
                         <span class="fa fa-cog mx-3 mx-md-4"></span>
                     </a>
                 </div>
-                {% endifequal %}
+                {% endif %}
                 <div class="row userprofile__row__stats py-2">
                     <span class="mr-3 mr-md-5">
                         <strong>
@@ -72,30 +72,58 @@
                         
                         <a class="nav-item nav-link active text-reset" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Posts</a>
                         
-                        {% ifequal user.username request.user.username %}
+                        {% if user.username == request.user.username %}
                         <a class="nav-item nav-link text-reset" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Saved</a>
-                        {% endifequal %}
+                        {% endif %}
 
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <div class="no__posts__img">
-                            <img src="{% static 'img/no-posts1.jpg' %}">
-                            <img src="{% static 'img/no-posts2.jpg' %}">
-                        </div>
+                        {% if user.username == request.user.username %}
+                            {% if request.user.posts_count != 0 %}
+                            <div class="all__posts__grid row justify-content-center">
+                                {% for post in request.user.post_set.all %}
+                                <div class='post__grid col-12 col-md-3 my-4 mx-3'>
+                                    <a href="url 'profile_view' '{{ post.pk }}'' ">
+                                        <img src="{{ post.image.url }}" class="w-100 img-fluid" style="height: 230px;object-fit: cover;">
+                                        <div class='posts__likes__comments'>
+                                            10 likes
+                                        </div>
+                                    </a>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <div class="no__posts__img">
+                                <img src="{% static 'img/no-posts1.jpg' %}">
+                                <img src="{% static 'img/no-posts2.jpg' %}">
+                            </div>
+                            {% endif %}
+                        {% else %}
+                            {% if user.posts_count != 0 %}
+                            <div class="all__posts__grid">
+                                
+                            </div>
+                            {% else %}
+                            <div class="no__posts__img">
+                                <img src="{% static 'img/no-posts1.jpg' %}">
+                                <img src="{% static 'img/no-posts2.jpg' %}">
+                            </div>
+                            {% endif %}
+                        {% endif %}
                     </div>
-                    {% ifequal user.username request.user.username %}
+                    {% if user.username == request.user.username %}
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                         <h1>Saved Posts</h1>
                     </div>
-                    {% endifequal %}
+                    {% endif %}
                 </div>                
             </div>
         </div>
     </div>
 
-    {% ifequal user.username request.user.username %}
+    {% if user.username == request.user.username %}
     <div class="modal fade" id="settingsList" tabindex="-1" aria-labelledby="settingsListLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -122,5 +150,5 @@
             </div>
         </div>
     </div>
-    {% endifequal %}
+    {% endif %}
 {% endblock %}
