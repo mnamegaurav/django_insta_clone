@@ -40,10 +40,10 @@ class User(AbstractUser):
 
     @property
     def followers_count(self):
-        count = self.follow_user.filter(is_follow=True).count()
+        count = self.follow_follows.filter(is_follow=True).count()
         return count
 
     @property
     def followings_count(self):
-        count = self.follow_follower.filter(is_follow=True).count()
+        count = self.follow_user.filter(is_follow=True).count()
         return count
