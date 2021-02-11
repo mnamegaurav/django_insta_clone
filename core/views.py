@@ -17,4 +17,4 @@ class LikedPostsView(View):
     template_name = 'core/liked_posts.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, context=context)
+        return render(request, self.template_name)
