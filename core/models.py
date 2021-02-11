@@ -26,6 +26,23 @@ class Post(models.Model):
             self.user = user
         super(Post, self).save(*args, **kwargs)
 
+    @property
+    def likes_count(self):
+        return self.like_set.count()
+
+    @property
+    def likers(self):
+        return self.like_set.all()
+
+    @property
+    def comments_count(self):
+        return self.comment_set.count()
+
+    @property
+    def commenters(self):
+        return self.comment_set.all()
+    
+
 # Comments Model
 class Comment(models.Model):
     text = models.CharField(max_length=240)
