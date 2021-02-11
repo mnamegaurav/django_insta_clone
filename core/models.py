@@ -68,7 +68,6 @@ class Like(models.Model):
 class Follow(models.Model):
     user = models.ForeignKey(User, related_name='follow_user', on_delete=models.CASCADE, editable=False)
     follows = models.ForeignKey(User, related_name='follow_follows', on_delete=models.CASCADE)
-    is_follow = models.BooleanField(default=True)
     followed_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
