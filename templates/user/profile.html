@@ -35,6 +35,16 @@
                     <span>
                         <strong>{{ request.user.full_name }}</strong>
                     </span>
+                    {% if request.user.bio %}
+                        <span>
+                            {{ request.user.bio }}
+                        </span>
+                    {% endif %}
+                    {% if request.user.website %}
+                        <span>
+                            <strong><a href="{{ request.user.website }}">{{ request.user.website }}</a></strong>
+                        </span>
+                    {% endif %}
                 </div>
             </div>
         </div>
