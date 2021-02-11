@@ -1,16 +1,15 @@
-{% load static %}
-
-{% block extra_head %}
-<link rel="stylesheet" type="text/css" href="{% static 'styles/core/post_card.css' %}">
-{% endblock %}
-
-<div class="card m-auto" style="max-width: 32rem;">
+<div class="card mx-auto mb-5" style="max-width: 32rem;">
   <div class="card-body p-0">
     <div class="card-title post__card__head d-flex justify-content-between px-2 pt-3">
         <div>
-            <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle z-depth-0">
+            {% if post.user.picture %}
+                <img src="{{ post.user.picture.url }}" class="rounded-circle z-depth-0">
+            {% else %}
+                <img src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png" class="rounded-circle z-depth-0">
+            {% endif %}
+            
             <span class="ml-2">
-                <a href="{% url 'profile_view' 'iamgaurav' %}" class="text-decoration-none text-reset">iamgaurav</a>
+                <a href="{% url 'profile_view' post.user.username %}" class="text-decoration-none text-reset">{{ post.user.username }}</a>
             </span>
         </div>
         <div class="more__options__dot">
@@ -27,7 +26,7 @@
         </div>
     </div>
     <div class="post__card__img">
-        <img src="{% static 'img/no-posts1.jpg' %}" style="width: 100%;">
+        <img src="{{ post.image.url }}" style="width: 100%;">
     </div>
     <div class="post__card__reactions d-flex justify-content-between py-3 px-2">
         <div class="d-flex">
@@ -46,6 +45,9 @@
                 <!-- <span class="fa fa-bookmark"></span> -->
             </div>
         </div>
+    </div>
+    <div class="post__card__text px-2">
+        <p>{{ post.text }}</p>
     </div>
   </div>
 </div>

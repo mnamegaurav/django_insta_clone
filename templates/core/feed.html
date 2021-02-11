@@ -1,4 +1,9 @@
 {% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/core/post_card.css' %}">
+{% endblock %}
 
 {% block content %}
 
@@ -13,7 +18,9 @@
     <div class="container my-5">
         <div class="row">
             <div class="col-12 col-md-8">
-                {% include 'components/post_card.html' %}
+                {% for post in all_posts %}
+                    {% include 'components/post_card.html' %}
+                {% endfor %}
             </div>
         </div>
     </div>

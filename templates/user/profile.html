@@ -11,7 +11,13 @@
             <div class="col-12 col-md-3 d-flex justify-content-center">
                 <label for="upload_profile_pic" class="profile__pic__btn">
                     <a href="{% url 'profile_edit_view' request.user.username %}">
-                        <img alt="Change Profile Photo" src="{{ request.user.picture.url }}" class="profile__pic">
+                        {% if request.user.picture %}
+                        <div>
+                            <img src="{{ request.user.picture.url }}" class="profile__pic">
+                        </div>
+                        {% else %}
+                            <img src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"  class="profile__pic">
+                        {% endif %}
                     </a>
                 </label>
                 <!-- <form enctype="multipart/form-data" method="POST" role="presentation">
