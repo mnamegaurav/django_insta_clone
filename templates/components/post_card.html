@@ -1,6 +1,6 @@
 <div class="card mx-auto mb-5" style="max-width: 32rem;">
   <div class="card-body p-0">
-    <div class="card-title post__card__head d-flex justify-content-between px-2 pt-3">
+    <div class="card-title post__card__head d-flex justify-content-between px-3 pt-3">
         <div>
             {% if post.user.picture %}
                 <img src="{{ post.user.picture.url }}" class="rounded-circle z-depth-0">
@@ -14,21 +14,16 @@
         </div>
         <div class="more__options__dot">
             <div class="dropdown">
-                <a class="text-reset text-decoration-none" type="button" id="more-options" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><strong>...</strong>
+                <a class="text-reset text-decoration-none" type="button" href="{% url 'post_view' post.pk %}">
+                    <strong>Go to Post</strong>
                 </a>
-                <div class="dropdown-menu" aria-labelledby="more-options">
-                    <a class="dropdown-item" href="#">Share to</a>
-                    <a class="dropdown-item" href="#">Go to Post</a>
-                    <a class="dropdown-item" href="#">Copy Post</a>
-                    <a class="dropdown-item" href="#">Report</a>
-                </div>
             </div>
         </div>
     </div>
     <div class="post__card__img">
         <img src="{{ post.image.url }}" style="width: 100%;">
     </div>
-    <div class="post__card__reactions d-flex justify-content-between py-3 px-2">
+    <div class="post__card__reactions d-flex justify-content-between py-3 px-3">
         <div class="d-flex">
             <div class="post__like__btn mx-1">
                 <span class="far fa-heart"></span>

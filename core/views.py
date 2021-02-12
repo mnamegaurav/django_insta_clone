@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import View
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.db.models import Count
 
 from core.models import Post
@@ -12,6 +12,21 @@ class HomeFeedView(View):
     def get(self, request, *args, **kwargs):
         all_posts = Post.objects.all()
         context = { 'all_posts': all_posts }
+        return render(request, self.template_name, context=context)
+
+
+class PostView(View):
+    template_name = 'core/post.html'
+
+    def get(self, request, *args, **kwargs):
+        post_id = kwargs.get('id')
+        try:
+            post = Post.objects.get(pk=post_id)
+        except Exception as e:
+            # Return a response with unable to delete
+            return HttpResponse('<h1>Sorry, this page isn\'t available.</h1>')
+        
+        context = { 'post': post }
         return render(request, self.template_name, context=context)
 
 
