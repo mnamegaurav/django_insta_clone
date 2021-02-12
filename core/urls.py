@@ -2,6 +2,7 @@ from django.urls import path
 from core.views import (
     HomeFeedView,
     LikedPostsView,
+    PostCreateView,
     PostDeleteView,
     PostsExploreView,
     PostView,
@@ -14,5 +15,6 @@ urlpatterns = [
     path('explore/', login_required(PostsExploreView.as_view()), name='posts_explore_view'),
     
     path('post/<int:id>/', login_required(PostView.as_view()), name='post_view'),
+    path('post/create/', login_required(PostCreateView.as_view()), name='post_create_view'),
     path('post/delete/<int:id>/', login_required(PostDeleteView.as_view()), name='post_delete_view'),
 ]

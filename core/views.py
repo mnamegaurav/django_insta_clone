@@ -1,17 +1,20 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.http import HttpResponseRedirect, HttpResponse
 from django.db.models import Count
 
 from core.models import Post
+from core.forms import PostCreateForm
 
 # Create your views here.
 class HomeFeedView(View):
     template_name = 'core/feed.html'
+    form_class = PostCreateForm
 
     def get(self, request, *args, **kwargs):
         all_posts = Post.objects.all()
-        context = { 'all_posts': all_posts }
+        form = self.form_class()
+        context = { 'all_posts': all_posts, 'form': form }
         return render(request, self.template_name, context=context)
 
 
@@ -35,6 +38,16 @@ class LikedPostsView(View):
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
+
+
+class PostCreateView(View):
+    form_class = PostCreateForm
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
 
 
 class PostDeleteView(View):
