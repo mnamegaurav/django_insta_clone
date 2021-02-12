@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import View
+from django.http import HttpResponseRedirect
 
 from core.models import Post
 
@@ -18,3 +19,16 @@ class LikedPostsView(View):
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
+
+
+class PostDeleteView(View):
+
+    def post(self, request, *args, **kwargs):
+        post_id = kwargs.get('id')
+        try:
+            post = Post.objects.get(pk=post_id)
+            post.delete()
+        except Exception as e:
+            # Return a response with unable to delete
+            pass
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

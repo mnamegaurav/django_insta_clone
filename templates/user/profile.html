@@ -26,7 +26,7 @@
                 <div class="row userprofile__row__first py-2">
                     <h2 class="username__text mr-4">{{ user.username }}</h2>
                     <a class="edit__profile__btn mx-3 mx-md-4 text-decoration-none text-reset px-2 py-1" href="{% url 'profile_edit_view' user.username %}">Edit Profile</a>
-                    <a class="text-decoration-none text-reset settings__icon d-flex justify-content-center" data-toggle="modal" data-target="#settingsList">
+                    <a class="text-decoration-none text-reset settings__icon d-flex justify-content-center" data-toggle="modal" data-target="#settings_list">
                         <span class="fa fa-cog mx-3 mx-md-4"></span>
                     </a>
                 </div>
@@ -94,8 +94,31 @@
                                             <span>
                                                 {{ post.comments_count }} comments
                                             </span>
+                                            <span>
+                                                <a data-toggle="modal" data-target="#post_delete_{{ post.pk }}" style="cursor: pointer;" class="mx-2">delete</a>
+                                            </span>
                                         </div>
                                     </a>
+                                </div>
+
+                                <!-- Post Delete modal -->
+                                <div class="modal fade" id="post_delete_{{ post.pk }}" tabindex="-1" aria-labelledby="post_delete_{{ post.pk }}_label" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-body p-0 py-2 text-center">
+                                                <div class="p-1 m-0 px-4">
+                                                    <p>Do you really want to delete this post?</p>
+                                                </div>
+                                                <div class="p-1 m-0 px-4">
+                                                    <form method="POST" action="{% url 'post_delete_view' post.pk %}">
+                                                        {% csrf_token %}
+                                                        <button class="btn btn-sm btn-warning" type="submit">Yes</button>
+                                                        <a class="btn btn-sm btn-info" data-dismiss="modal">No</a>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 {% endfor %}
                             </div>
@@ -142,8 +165,11 @@
         </div>
     </div>
 
+
+    <!-- All Modals in this page -->
     {% if user.username == request.user.username %}
-    <div class="modal fade" id="settingsList" tabindex="-1" aria-labelledby="settingsListLabel" aria-hidden="true">
+    <!-- Settings Modal -->
+    <div class="modal fade" id="settings_list" tabindex="-1" aria-labelledby="settings_list_label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body p-0 py-2 text-center">
