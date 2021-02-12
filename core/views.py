@@ -51,7 +51,7 @@ class PostDeleteView(View):
 
 
 class PostsExploreView(View):
-    template_name = 'core/feed.html'
+    template_name = 'core/explore.html'
 
     def get(self, request, *args, **kwargs):
         all_posts = Post.objects.annotate(count=Count('like')).order_by('-count')
