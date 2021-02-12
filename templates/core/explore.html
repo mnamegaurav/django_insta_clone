@@ -9,7 +9,7 @@
     <div class="container my-5">
         <div class="row justify-content-center">
             {% for post in all_posts %}
-                <div class='col-12 col-md-3 my-4 mx-3'>
+                <div class='col-12 col-md-3 my-4 mx-3 card'>
                     <a href="url 'profile_view' '{{ post.pk }}'' " class="text-decoration-none text-reset">
                         <img src="{{ post.image.url }}" class="w-100 img-fluid" style="height: 230px;object-fit: cover;">
                         <div class='posts__likes__comment mr-2 text-center text-mute' style="font-size: 14px;">

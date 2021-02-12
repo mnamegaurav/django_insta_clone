@@ -7,7 +7,12 @@
               <img src="{% static 'img/instalogo.png' %}" class="nav__insta__logo">
           </a>
         <div class="search__input m-auto d-none d-md-block">
-          <input type="text" autocapitalize="none" placeholder="Search" value="" class="form-control">
+          <form method="GET" action="{% url 'all_profiles_view' %}" class="form-inline">
+            <input type="text" autocapitalize="none" placeholder="Search" value="" class="form-control" name="s">
+            <button type="submit" class="ml-2 btn p-0">
+              <i class="fa fa-search"></i>
+            </button>
+          </form>
         </div>    
         <ul class="navbar-nav ml-0 ml-md-auto d-flex flex-row">
           <li class="nav-item px-md-3 px-2 d-flex flex-column justify-content-center">

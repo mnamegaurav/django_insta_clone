@@ -10,4 +10,7 @@ class PostCreateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['text'].widget.attrs.update({'class': 'form-control form-control-sm'})
+        self.fields['text'].widget.attrs.update({
+            'class': 'form-control form-control-sm',
+            'placeholder': 'Caption this...',
+            })

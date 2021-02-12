@@ -30,6 +30,23 @@
                         <span class="fa fa-cog mx-3 mx-md-4"></span>
                     </a>
                 </div>
+                {% else %}
+                <div class="row userprofile__row__first py-2">
+                    <h2 class="username__text mr-4">{{ user.username }}</h2>
+                    {% if not follows_this_user %}
+                    <form method="POST" action="{% url 'follow_done_view' %}">
+                        {% csrf_token %}
+                        <input type="number" name="followed_user_id" hidden value="{{ user.pk }}">
+                        <button class="px-2 btn btn-sm btn-primary mx-2" type="submit">Follow</button>
+                    </form>
+                    {% else %}
+                    <form method="POST" action="{% url 'unfollow_done_view' %}">
+                        {% csrf_token %}
+                        <input type="number" name="unfollowed_user_id" hidden value="{{ user.pk }}">
+                        <button class="px-2 btn btn-sm btn-primary mx-2" type="submit">Unfollow</button>
+                    </form>
+                    {% endif %}
+                </div>
                 {% endif %}
                 <div class="row userprofile__row__stats py-2">
                     <span class="mr-3 mr-md-5">

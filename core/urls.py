@@ -6,6 +6,8 @@ from core.views import (
     PostDeleteView,
     PostsExploreView,
     PostView,
+    FollowDoneVideo,
+    UnfollowDoneVideo,
     )
 from django.contrib.auth.decorators import login_required
 
@@ -17,4 +19,7 @@ urlpatterns = [
     path('post/<int:id>/', login_required(PostView.as_view()), name='post_view'),
     path('post/create/', login_required(PostCreateView.as_view()), name='post_create_view'),
     path('post/delete/<int:id>/', login_required(PostDeleteView.as_view()), name='post_delete_view'),
+    
+    path('follow/done/', login_required(FollowDoneVideo.as_view()), name='follow_done_view'),
+    path('funollow/done/', login_required(UnfollowDoneVideo.as_view()), name='unfollow_done_view'),
 ]
