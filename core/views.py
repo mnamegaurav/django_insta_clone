@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import View
 from django.http import HttpResponseRedirect
+from django.db.models import Count
 
 from core.models import Post
 
@@ -32,3 +33,12 @@ class PostDeleteView(View):
             # Return a response with unable to delete
             pass
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class PostsExploreView(View):
+    template_name = 'core/feed.html'
+
+    def get(self, request, *args, **kwargs):
+        all_posts = Post.objects.annotate(count=Count('like')).order_by('-count')
+        context = { 'all_posts': all_posts }
+        return render(request, self.template_name, context=context)
