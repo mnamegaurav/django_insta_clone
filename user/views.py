@@ -17,8 +17,8 @@ class ProfileView(View):
         follows_this_user = False
         try:
             user = User.objects.get(username=username)
-            for following in request.user.follow_user.all():
-                if following.follows == user:
+            for follow_user in request.user.follow_user.all():
+                if follow_user.follows == user:
                     follows_this_user = True
         except Exception as e:
             return HttpResponse('<h1>Sorry, this page isn\'t available.</h1>')
@@ -60,7 +60,9 @@ class AllProfilesView(View):
     def get(self, request, *args, **kwargs):
         search_term = request.GET.get('s')
         if not search_term:
-            all_profiles = User.objects.filter(is_active=True).exclude(
+            all_profiles = User.objects.filter(
+                    is_active=True
+                ).exclude(
                     username=request.user.username
                 ).values(
                     'picture', 'full_name', 'bio', 'username'

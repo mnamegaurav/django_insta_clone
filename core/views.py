@@ -82,7 +82,10 @@ class FollowDoneVideo(View):
         followed_user = User.objects.get(pk=followed_user_id)
 
         try:
-            follow_obj = Follow.objects.get(follows=followed_user)
+            follow_obj = Follow.objects.get(
+                user=request.user,
+                follows=followed_user
+                )
         except Exception as e:
             follow_obj = Follow.objects.create(follows=followed_user)
 
@@ -96,7 +99,10 @@ class UnfollowDoneVideo(View):
         unfollowed_user = User.objects.get(pk=unfollowed_user_id)
 
         try:
-            follow_obj = Follow.objects.get(follows=unfollowed_user)
+            follow_obj = Follow.objects.get(
+                user=request.user,
+                follows=unfollowed_user
+                )
             follow_obj.delete()
         except Exception as e:
             pass
