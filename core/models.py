@@ -44,6 +44,23 @@ class Post(models.Model):
     @property
     def commenters(self):
         return self.comment_set.all()
+
+
+class SavedPost(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
+    saved_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.post.pk
+
+    def save(self, *args, **kwargs):
+        user = get_current_user()
+        if user and not user.pk:
+            user = None
+        if not self.pk:
+            self.user = user
+        super(SavedPost, self).save(*args, **kwargs)
     
 
 # Comments Model
