@@ -60,14 +60,18 @@ class AllProfilesView(View):
     def get(self, request, *args, **kwargs):
         search_term = request.GET.get('s')
         if not search_term:
-            all_profiles = User.objects.filter(is_active=True).values(
-                'picture', 'full_name', 'bio', 'username'
+            all_profiles = User.objects.filter(is_active=True).exclude(
+                    username=request.user.username
+                ).values(
+                    'picture', 'full_name', 'bio', 'username'
                 )
         else:
             all_profiles = User.objects.filter(
                     is_active=True
                 ).filter(
                     Q(username__contains=search_term) | Q(full_name__contains=search_term)
+                ).exclude(
+                    username=request.user.username
                 ).values(
                     'picture', 'full_name', 'bio', 'username'
                 )
