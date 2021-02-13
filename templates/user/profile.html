@@ -10,15 +10,13 @@
         <div class="row mb-5 pl-md-5">
             <div class="col-12 col-md-3 d-flex justify-content-center">
                 <label for="upload_profile_pic" class="profile__pic__btn">
+                    {% if user.picture %}
                     <a href="{% url 'profile_edit_view' user.username %}">
-                        {% if user.picture %}
-                        <div>
-                            <img src="{{ user.picture.url }}" class="profile__pic">
-                        </div>
-                        {% else %}
-                            <img src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"  class="profile__pic">
-                        {% endif %}
+                        <img src="{{ user.picture.url }}" class="profile__pic">
                     </a>
+                    {% else %}
+                    <img src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"  class="profile__pic">
+                    {% endif %}
                 </label>
             </div>
             <div class="col-12 col-md-9 pl-5">

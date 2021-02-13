@@ -32,6 +32,11 @@ class ProfileEditView(View):
     form_class = UserEditForm
     
     def get(self, request, *args, **kwargs):
+        username = kwargs.get('username')
+
+        if request.user.username != username:
+            return HttpResponse('<h1>Sorry, this page isn\'t available.</h1>')
+        
         context = { 'form': self.form_class(instance=request.user) }
         return render(request, self.template_name, context)
 
