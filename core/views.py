@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.db.models import Count
 from django.contrib.auth import get_user_model
 
-from core.models import Post, Follow, Like
+from core.models import Post, Follow, Like, Comment
 from core.forms import PostCreateForm
 
 User = get_user_model()
@@ -142,4 +142,14 @@ class PostDislikeView(View):
         except Exception as e:
             pass
 
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class PostCommentView(View):
+
+    def post(self, request, *args, **kwargs):
+        comment_text = request.POST.get('comment_text')
+        post_id = kwargs.get('id')
+        post = Post.objects.get(pk=post_id)
+        comment_obj = Comment.objects.create(text=comment_text,post=post)
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

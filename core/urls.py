@@ -8,6 +8,7 @@ from core.views import (
     PostView,
     FollowDoneVideo,
     UnfollowDoneVideo,
+    PostCommentView,
     PostLikeView,
     PostDislikeView,
     )
@@ -24,6 +25,8 @@ urlpatterns = [
     
     path('post/like/<int:id>/', login_required(PostLikeView.as_view()), name='post_like_view'),
     path('post/dislike/<int:id>/', login_required(PostDislikeView.as_view()), name='post_dislike_view'),
+
+    path('post/comment/<int:id>/', login_required(PostCommentView.as_view()), name='post_comment_view'),
 
     path('follow/done/', login_required(FollowDoneVideo.as_view()), name='follow_done_view'),
     path('funollow/done/', login_required(UnfollowDoneVideo.as_view()), name='unfollow_done_view'),

@@ -52,7 +52,40 @@
         </div>
         {% endif %}
         <div class="post__card__comments px-2 py-3 border-top border-bottom">
-            Comments
+            <strong>Comments</strong>
+        </div>
+        <div class="overflow-auto">
+
+            {% for comment in post.comment_set.all %}
+            <!-- Single Comment -->
+            <div class="comment row py-3 px-4">
+                <a href="{% url 'profile_view' comment.user.username %}" class="text-reset text-decoration-none form-inline">
+                    {% if comment.user.picture %}
+                    <img src="/media/{{ comment.user.picture }}" class="rounded-circle z-depth-0 profile__pic">
+                    {% else %}
+                    <img src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png"  class="profile__pic rounded-circle z-depth-0">
+                    {% endif %}
+                    <div class="my-auto ml-2">
+                        <p class="m-0" style="font-size: 14px;">
+                            {{ comment.user.full_name }}
+                        </p>
+                    </div>
+                </a>
+                <div class="w-100">
+                    <p class="m-0 text-wrap" style="font-size: 13px;">
+                        {{ comment.text }}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+        <div class="w-100 my-3">
+            <form class="form-inline justify-content-between mx-1" action="{% url 'post_comment_view' post.pk %}" method="POST">
+                {% csrf_token %}
+                <textarea name="comment_text" placeholder="Add a comment..." style="outline: none;border: 0" class="w-100"></textarea>
+                <button type="submit" class="btn btn-sm text-primary font-weight-bold">Post</button>
+            </form>
         </div>
     </div>
   </div>
