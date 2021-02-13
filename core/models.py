@@ -52,7 +52,7 @@ class SavedPost(models.Model):
     saved_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.post.pk
+        return str(self.post.pk)
 
     def save(self, *args, **kwargs):
         user = get_current_user()

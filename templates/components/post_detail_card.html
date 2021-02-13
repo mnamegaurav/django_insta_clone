@@ -42,7 +42,12 @@
             </div>
             <div>
                 <div class="post__save__btn">
-                    <span class="far fa-bookmark"></span>
+                    <form method="POST" action="{% url 'post_save_view' post.pk %}">
+                        {% csrf_token %}
+                        <button class="btn p-0 m-0" type="submit">
+                            <span class="far fa-bookmark"></span>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

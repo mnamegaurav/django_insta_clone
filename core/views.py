@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.db.models import Count
 from django.contrib.auth import get_user_model
 
-from core.models import Post, Follow, Like, Comment
+from core.models import Post, Follow, Like, Comment, SavedPost
 from core.forms import PostCreateForm
 
 User = get_user_model()
@@ -39,6 +39,13 @@ class PostView(View):
         return render(request, self.template_name, context=context)
 
 
+class PostsSavedView(View):
+    template_name = 'core/saved.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+
 class LikedPostsView(View):
     template_name = 'core/liked_posts.html'
 
@@ -54,6 +61,15 @@ class PostCreateView(View):
         if form.is_valid():
             form.save()
             return redirect('/')
+
+
+class PostSaveView(View):
+
+    def post(self, request, *args, **kwargs):
+        post_id = kwargs.get('id')
+        post = Post.objects.get(pk=post_id)
+        SavedPost.objects.create(post=post)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 class PostDeleteView(View):
