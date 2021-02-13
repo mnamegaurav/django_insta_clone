@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.db.models import Count
 from django.contrib.auth import get_user_model
 
-from core.models import Post, Follow
+from core.models import Post, Follow, Like
 from core.forms import PostCreateForm
 
 User = get_user_model()
@@ -26,13 +26,16 @@ class PostView(View):
 
     def get(self, request, *args, **kwargs):
         post_id = kwargs.get('id')
+        liked_this_post=False
         try:
             post = Post.objects.get(pk=post_id)
+            if post_id in request.user.like_set.values_list('post__pk', flat=True):
+                liked_this_post=True
         except Exception as e:
             # Return a response with unable to delete
             return HttpResponse('<h1>Sorry, this page isn\'t available.</h1>')
         
-        context = { 'post': post }
+        context = { 'post': post, 'liked_this_post': liked_this_post }
         return render(request, self.template_name, context=context)
 
 
@@ -104,6 +107,38 @@ class UnfollowDoneVideo(View):
                 follows=unfollowed_user
                 )
             follow_obj.delete()
+        except Exception as e:
+            pass
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class PostLikeView(View):
+
+    def post(self, request, *args, **kwargs):
+        post_id = kwargs.get('id')
+        post = Post.objects.get(pk=post_id)
+
+        try:
+            like_obj = Like.objects.get(user=request.user, post=post)
+        except Exception as e:
+            like_obj = Like.objects.create(
+                user=request.user,
+                post=post
+                )
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class PostDislikeView(View):
+
+    def post(self, request, *args, **kwargs):
+        post_id = kwargs.get('id')
+        post = Post.objects.get(pk=post_id)
+
+        try:
+            like_obj = Like.objects.get(user=request.user, post=post)
+            like_obj.delete()
         except Exception as e:
             pass
 

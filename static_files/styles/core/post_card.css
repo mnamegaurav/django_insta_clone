@@ -9,7 +9,7 @@
     font-size: 14px;
 }
 
-.post__card__reactions .fa, .post__card__reactions .far{
+.post__card__reactions .fa, .fas, .far, .post__card__reactions .far{
     font-size: 25px;
 }
 
