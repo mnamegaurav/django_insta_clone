@@ -1,1 +1,1 @@
-web: gunicorn myblog.wsgi
+web: gunicorn insta_clone.wsgi
