@@ -18,13 +18,6 @@
                     <a href="{% url 'profile_view' post.user.username %}" class="text-decoration-none text-reset">{{ post.user.username }}</a>
                 </span>
             </div>
-            <div class="more__options__dot">
-                <div class="dropdown">
-                    <a class="text-reset text-decoration-none" type="button" href="{% url 'post_view' post.pk %}">
-                        <strong>Go to Post</strong>
-                    </a>
-                </div>
-            </div>
         </div>
         <div class="post__card__reactions d-flex justify-content-between py-3 px-3">
             <div class="d-flex">
