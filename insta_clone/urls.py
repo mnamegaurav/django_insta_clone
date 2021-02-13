@@ -25,5 +25,5 @@ urlpatterns = [
     path('', include('user.urls')),
 ]
 
-if settings.DEBUG==True:
-    urlpatterns.extend(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
+# if settings.DEBUG==True:
+urlpatterns.extend(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
