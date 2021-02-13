@@ -99,18 +99,22 @@
                             {% if request.user.posts_count != 0 %}
                             <div class="all__posts__grid row justify-content-center">
                                 {% for post in request.user.post_set.all %}
-                                <div class='post__grid col-12 col-md-3 my-4 mx-3'>
+                                <div class='card p-0 col-12 col-md-4 col-lg-3 my-4 mx-3'>
                                     <a href="{% url 'post_view' post.pk %}" class="text-decoration-none text-reset">
                                         <img src="{{ post.image.url }}" class="w-100 img-fluid" style="height: 230px;object-fit: cover;">
-                                        <div class='posts__likes__comment mr-2 text-center text-mute' style="font-size: 14px;">
-                                            <span>
-                                                {{ post.likes_count }} likes
+                                        <div class='posts__likes__comment mx-auto py-3 text-center text-mute row justify-content-center' style="font-size: 14px;">
+                                            <span class="mx-2">
+                                                <span class="far fa-heart"></span>
+                                                {{ post.likes_count }}
                                             </span> 
-                                            <span>
-                                                {{ post.comments_count }} comments
+                                            <span class="mx-2">
+                                                <span class="far fa-comment"></span>
+                                                {{ post.comments_count }}
                                             </span>
-                                            <span>
-                                                <a data-toggle="modal" data-target="#post_delete_{{ post.pk }}" style="cursor: pointer;" class="mx-2">delete</a>
+                                            <span class="mx-2">
+                                                <a data-toggle="modal" data-target="#post_delete_{{ post.pk }}" style="cursor: pointer;">
+                                                    <span class="fa fa-trash"></span>
+                                                </a>
                                             </span>
                                         </div>
                                     </a>
@@ -147,15 +151,17 @@
                             {% if user.posts_count != 0 %}
                             <div class="all__posts__grid row justify-content-center">
                                 {% for post in user.post_set.all %}
-                                <div class='post__grid col-12 col-md-3 my-4 mx-3'>
+                                <div class='post__grid col-12 col-md-4 col-lg-3 my-4 mx-3'>
                                     <a href="{% url 'post_view' post.pk %}" class="text-decoration-none text-reset">
                                         <img src="{{ post.image.url }}" class="w-100 img-fluid" style="height: 230px;object-fit: cover;">
-                                        <div class='posts__likes__comment mr-2 text-center text-mute' style="font-size: 14px;">
-                                            <span>
-                                                {{ post.likes_count }} likes
+                                        <div class='posts__likes__comment mx-auto py-3 text-center text-mute row justify-content-center' style="font-size: 14px;">
+                                            <span class="mx-2">
+                                                <span class="far fa-heart"></span>
+                                                {{ post.likes_count }}
                                             </span> 
-                                            <span>
-                                                {{ post.comments_count }} comments
+                                            <span class="mx-2">
+                                                <span class="far fa-comment"></span>
+                                                {{ post.comments_count }}
                                             </span>
                                         </div>
                                     </a>
@@ -172,7 +178,7 @@
                     </div>
                     {% if user.username == request.user.username %}
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                        <h1>Saved Posts</h1>
+                        <p>Saved Posts</p>
                     </div>
                     {% endif %}
                 </div>                
