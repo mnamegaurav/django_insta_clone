@@ -63,6 +63,7 @@ class SignUpView(View):
         form = self.form_class(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Account created, you can login now.', extra_tags='success')
             return redirect('signin_view')
 
         context = {'form': form}
