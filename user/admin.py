@@ -14,11 +14,11 @@ class CustomUserAdmin(UserAdmin):
     model = User
     add_fieldsets = (
         ('Personal Details', {'fields': ('email', 'full_name', 'username', 'picture', 'password1', 'password2')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active')})
+        ('Permissions', {'fields': ('is_staff', 'is_active', 'user_permissions', 'groups')})
         )
     fieldsets = (
         ('Personal Details', {'fields': ('email', 'full_name', 'username', 'picture')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active', 'user_permissions', 'groups')}),
         ('Optional', {'fields': ('gender', 'phone_number', 'is_account_private', 'website', 'bio')}),
         )
 
