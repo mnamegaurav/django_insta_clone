@@ -20,7 +20,7 @@
                 </label>
             </div>
             <div class="col-12 col-md-9 pl-5">
-                {% if user.username == request.user.username %}
+
                 <div class="row userprofile__row__first py-2">
                     <h2 class="username__text mr-4">{{ user.username }}</h2>
                     <a class="edit__profile__btn mx-3 mx-md-4 text-decoration-none text-reset px-2 py-1" href="{% url 'profile_edit_view' user.username %}">Edit Profile</a>
@@ -28,24 +28,7 @@
                         <span class="fa fa-cog mx-3 mx-md-4"></span>
                     </a>
                 </div>
-                {% else %}
-                <div class="row userprofile__row__first py-2">
-                    <h2 class="username__text mr-4">{{ user.username }}</h2>
-                    {% if not follows_this_user %}
-                    <form method="POST" action="{% url 'follow_done_view' %}">
-                        {% csrf_token %}
-                        <input type="number" name="followed_user_id" hidden value="{{ user.pk }}">
-                        <button class="px-2 btn btn-sm btn-primary mx-2" type="submit">Follow</button>
-                    </form>
-                    {% else %}
-                    <form method="POST" action="{% url 'unfollow_done_view' %}">
-                        {% csrf_token %}
-                        <input type="number" name="unfollowed_user_id" hidden value="{{ user.pk }}">
-                        <button class="px-2 btn btn-sm btn-success mx-2" type="submit">Unfollow</button>
-                    </form>
-                    {% endif %}
-                </div>
-                {% endif %}
+                
                 <div class="row userprofile__row__stats py-2">
                     <span class="mr-3 mr-md-5">
                         <strong>
@@ -87,96 +70,66 @@
                         
                         <a class="nav-item nav-link active text-reset" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Posts</a>
                         
-                        {% if user.username == request.user.username %}
                         <a class="nav-item nav-link text-reset" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Saved</a>
-                        {% endif %}
 
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        {% if user.username == request.user.username %}
-                            {% if request.user.posts_count != 0 %}
-                            <div class="all__posts__grid row justify-content-center">
-                                {% for post in request.user.post_set.all %}
-                                <div class='card p-0 col-12 col-md-4 col-lg-3 my-4 mx-3'>
-                                    <a href="{% url 'post_view' post.pk %}" class="text-decoration-none text-reset">
-                                        <img src="{{ post.image.url }}" class="w-100 img-fluid" style="height: 230px;object-fit: cover;">
-                                        <div class='posts__likes__comment mx-auto py-3 text-center text-mute row justify-content-center' style="font-size: 14px;">
-                                            <span class="mx-2">
-                                                <span class="far fa-heart"></span>
-                                                {{ post.likes_count }}
-                                            </span> 
-                                            <span class="mx-2">
-                                                <span class="far fa-comment"></span>
-                                                {{ post.comments_count }}
-                                            </span>
-                                            <span class="mx-2">
-                                                <a data-toggle="modal" data-target="#post_delete_{{ post.pk }}" style="cursor: pointer;">
-                                                    <span class="fa fa-trash"></span>
-                                                </a>
-                                            </span>
-                                        </div>
-                                    </a>
-                                </div>
+                        {% if request.user.posts_count != 0 %}
+                        <div class="all__posts__grid row justify-content-center">
+                            {% for post in request.user.post_set.all %}
+                            <div class='card p-0 col-12 col-md-4 col-lg-3 my-4 mx-3'>
+                                <a href="{% url 'post_view' post.pk %}" class="text-decoration-none text-reset">
+                                    <img src="{{ post.image.url }}" class="w-100 img-fluid" style="height: 230px;object-fit: cover;">
+                                    <div class='posts__likes__comment mx-auto py-3 text-center text-mute row justify-content-center' style="font-size: 14px;">
+                                        <span class="mx-2">
+                                            <span class="far fa-heart"></span>
+                                            {{ post.likes_count }}
+                                        </span> 
+                                        <span class="mx-2">
+                                            <span class="far fa-comment"></span>
+                                            {{ post.comments_count }}
+                                        </span>
+                                        <span class="mx-2">
+                                            <a data-toggle="modal" data-target="#post_delete_{{ post.pk }}" style="cursor: pointer;">
+                                                <span class="fa fa-trash"></span>
+                                            </a>
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
 
-                                <!-- Post Delete modal -->
-                                <div class="modal fade" id="post_delete_{{ post.pk }}" tabindex="-1" aria-labelledby="post_delete_{{ post.pk }}_label" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-body p-0 py-2 text-center">
-                                                <div class="p-1 m-0 px-4">
-                                                    <p>Do you really want to delete this post?</p>
-                                                </div>
-                                                <div class="p-1 m-0 px-4">
-                                                    <form method="POST" action="{% url 'post_delete_view' post.pk %}">
-                                                        {% csrf_token %}
-                                                        <button class="btn btn-sm btn-warning" type="submit">Yes</button>
-                                                        <a class="btn btn-sm btn-info" data-dismiss="modal">No</a>
-                                                    </form>
-                                                </div>
+                            <!-- Post Delete modal -->
+                            <div class="modal fade" id="post_delete_{{ post.pk }}" tabindex="-1" aria-labelledby="post_delete_{{ post.pk }}_label" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-body p-0 py-2 text-center">
+                                            <div class="p-1 m-0 px-4">
+                                                <p>Do you really want to delete this post?</p>
+                                            </div>
+                                            <div class="p-1 m-0 px-4">
+                                                <form method="POST" action="{% url 'post_delete_view' post.pk %}">
+                                                    {% csrf_token %}
+                                                    <button class="btn btn-sm btn-warning" type="submit">Yes</button>
+                                                    <a class="btn btn-sm btn-info" data-dismiss="modal">No</a>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                {% endfor %}
                             </div>
-                            {% else %}
-                            <div class="no__posts__img">
-                                <img src="{% static 'img/no-posts1.jpg' %}">
-                                <img src="{% static 'img/no-posts2.jpg' %}">
-                            </div>
-                            {% endif %}
+                            {% endfor %}
+                        </div>
                         {% else %}
-                            {% if user.posts_count != 0 %}
-                            <div class="all__posts__grid row justify-content-center">
-                                {% for post in user.post_set.all %}
-                                <div class='card p-0 col-12 col-md-4 col-lg-3 my-4 mx-3'>
-                                    <a href="{% url 'post_view' post.pk %}" class="text-decoration-none text-reset">
-                                        <img src="{{ post.image.url }}" class="w-100 img-fluid" style="height: 230px;object-fit: cover;">
-                                        <div class='posts__likes__comment mx-auto py-3 text-center text-mute row justify-content-center' style="font-size: 14px;">
-                                            <span class="mx-2">
-                                                <span class="far fa-heart"></span>
-                                                {{ post.likes_count }}
-                                            </span> 
-                                            <span class="mx-2">
-                                                <span class="far fa-comment"></span>
-                                                {{ post.comments_count }}
-                                            </span>
-                                        </div>
-                                    </a>
-                                </div>
-                                {% endfor %}
-                            </div>
-                            {% else %}
-                            <div class="no__posts__img">
-                                <img src="{% static 'img/no-posts1.jpg' %}">
-                                <img src="{% static 'img/no-posts2.jpg' %}">
-                            </div>
-                            {% endif %}
+                        <div class="no__posts__img">
+                            <img src="{% static 'img/no-posts1.jpg' %}">
+                            <img src="{% static 'img/no-posts2.jpg' %}">
+                        </div>
                         {% endif %}
+                        
                     </div>
-                    {% if user.username == request.user.username %}
+
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                         <div class="all__posts__grid row justify-content-center">
                         {% for savedpost_obj in request.user.savedpost_set.all %}
@@ -200,7 +153,7 @@
                         {% endfor %}
                         </div>
                     </div>
-                    {% endif %}
+
                 </div>                
             </div>
         </div>
@@ -208,7 +161,7 @@
 
 
     <!-- All Modals in this page -->
-    {% if user.username == request.user.username %}
+
     <!-- Settings Modal -->
     <div class="modal fade" id="settings_list" tabindex="-1" aria-labelledby="settings_list_label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -236,5 +189,5 @@
             </div>
         </div>
     </div>
-    {% endif %}
+
 {% endblock %}

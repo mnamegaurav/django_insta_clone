@@ -10,21 +10,28 @@ from user.forms import UserEditForm
 User = get_user_model()
 
 class ProfileView(View):
-    template_name = 'user/profile.html'
+    template_name_auth = 'user/authenticated_profile.html'
+    template_name_anon = 'user/anonymous_profile.html'
     
     def get(self, request, *args, **kwargs):
         username = kwargs.get('username')
-        follows_this_user = False
+
         try:
             user = User.objects.get(username=username)
-            for follow_user in request.user.follow_user.all():
-                if follow_user.follows == user:
-                    follows_this_user = True
         except Exception as e:
             return HttpResponse('<h1>Sorry, this page isn\'t available.</h1>')
 
-        context = {'user': user, 'follows_this_user': follows_this_user}
-        return render(request, self.template_name, context=context)
+        if username == request.user.username:
+            context = {'user': user}
+            return render(request, self.template_name_auth, context=context)
+        else:
+            follows_this_user = False
+            for follow_user in request.user.follow_user.all():
+                if follow_user.follows == user:
+                    follows_this_user = True
+
+            context = {'user': user, 'follows_this_user': follows_this_user}
+            return render(request, self.template_name_anon, context=context)
 
 
 class ProfileEditView(View):
