@@ -25,12 +25,11 @@ class LikeModelAdmin(admin.ModelAdmin):
 
 class FollowModelAdmin(admin.ModelAdmin):
     model = Follow
-    list_display = ('user', 'follows', 'followed_on', 'updated_on')
-
+    list_display = ('user', 'followed', 'followed_on', 'updated_on')
 
 class SavedPostModelAdmin(admin.ModelAdmin):
     model = SavedPost
-    list_display = ('user', 'post', 'saved_on')
+    list_display = ('post', 'user', 'saved_on')
 
 
 admin.site.register(Post, PostModelAdmin)

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from crum import get_current_user
+
+from core.utils import auto_save_current_user
 # Create your models here.
 
 User = get_user_model()
@@ -16,52 +17,25 @@ class Post(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-updated_on']
+        ordering = ['-created_on']
 
     def __str__(self):
         return str(self.pk)
 
     def save(self, *args, **kwargs):
-        user = get_current_user()
-        if user and not user.pk:
-            user = None
-        if not self.pk:
-            self.user = user
+        auto_save_current_user(self)
         super(Post, self).save(*args, **kwargs)
 
     @property
     def likes_count(self):
-        return self.like_set.count()
-
-    @property
-    def likers(self):
-        return self.like_set.all()
+        count = self.like_set.count()
+        return count
 
     @property
     def comments_count(self):
-        return self.comment_set.count()
+        count = self.comment_set.count()
+        return count
 
-    @property
-    def commenters(self):
-        return self.comment_set.all()
-
-
-class SavedPost(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
-    saved_on = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return str(self.post.pk)
-
-    def save(self, *args, **kwargs):
-        user = get_current_user()
-        if user and not user.pk:
-            user = None
-        if not self.pk:
-            self.user = user
-        super(SavedPost, self).save(*args, **kwargs)
-    
 
 # Comments Model
 class Comment(models.Model):
@@ -75,11 +49,7 @@ class Comment(models.Model):
         return self.text
 
     def save(self, *args, **kwargs):
-        user = get_current_user()
-        if user and not user.pk:
-            user = None
-        if not self.pk:
-            self.user = user
+        auto_save_current_user(self)
         super(Comment, self).save(*args, **kwargs)
 
 # Likes Model
@@ -90,31 +60,36 @@ class Like(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.post.pk)
+        return str(self.post.id)
 
     def save(self, *args, **kwargs):
-        user = get_current_user()
-        if user and not user.pk:
-            user = None
-        if not self.pk:
-            self.user = user
+        auto_save_current_user(self)
         super(Like, self).save(*args, **kwargs)
 
 # Followers Model
 class Follow(models.Model):
-    user = models.ForeignKey(User, related_name='follow_user', on_delete=models.CASCADE, editable=False)
-    follows = models.ForeignKey(User, related_name='follow_follows', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='follow_follower', on_delete=models.CASCADE, editable=False)
+    followed = models.ForeignKey(User, related_name='follow_followed', on_delete=models.CASCADE)
     followed_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
 
     def __str__(self):
-        return f"{self.user} --> {self.follows}"
+        return f"{self.user} --> {self.followed}"
 
     def save(self, *args, **kwargs):
-        user = get_current_user()
-        if user and not user.pk:
-            user = None
-        if not self.pk:
-            self.user = user
+        auto_save_current_user(self)
         super(Follow, self).save(*args, **kwargs)
+
+
+class SavedPost(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
+    saved_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.post.pk)
+
+    def save(self, *args, **kwargs):
+        auto_save_current_user(self)
+        super(SavedPost, self).save(*args, **kwargs)

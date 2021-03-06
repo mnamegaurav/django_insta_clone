@@ -21,7 +21,7 @@
                         <div class="signin__form mb-3">
                             {% if messages %}
                                 {% for message in messages %}
-                                <div class="alert alert-{{ message.tags }}" role='alert'>
+                                <div class="alert alert-danger" role='alert'>
                                     {{ message }}
                                 </div>
                                 {% endfor %}

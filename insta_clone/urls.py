@@ -15,19 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings
 from django.conf.urls.static import static
-
-from django.views.generic import TemplateView
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('authentication.urls')),
     path('', include('core.urls')),
     path('', include('user.urls')),
-
-    path('404/', TemplateView.as_view(template_name='error.html'), name="error_view")
 ]
 
-# if settings.DEBUG==True:
-urlpatterns.extend(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
+urlpatterns.extend(
+    static(
+        settings.MEDIA_URL, 
+        document_root=settings.MEDIA_ROOT
+        )
+    )
