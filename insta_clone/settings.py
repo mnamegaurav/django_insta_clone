@@ -25,7 +25,7 @@ SECRET_KEY = '23gdwfji#=24-=*0j9n%%j-zjd&h*(5^ireu44^i9vgiuw^+du'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -81,14 +81,11 @@ WSGI_APPLICATION = 'insta_clone.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dd5gelhio4fot6',
-        'USER': 'jznfapfyvugqnx',
-        'HOST': 'ec2-54-155-208-5.eu-west-1.compute.amazonaws.com',
-        'PASSWORD': 'ae3f056b99abedc7536ae2bacae8b06081464688d82834a9ac50c5229e528339',
-        'PORT': 5432,
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -146,5 +143,3 @@ EMAIL_HOST_USER = ''
 
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = BASE_DIR / 'emails'
-
-from insta_clone.jazzmin_config import *
