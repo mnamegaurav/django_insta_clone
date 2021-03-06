@@ -81,11 +81,14 @@ WSGI_APPLICATION = 'insta_clone.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd4iobib1hb443h',
+        'USER': 'lipbcrxikoeogu',
+        'HOST': 'ec2-54-228-174-49.eu-west-1.compute.amazonaws.com',
+        'PASSWORD': 'b9ec7eae8fb2f20278b8add51d80966037964a4211b6b06e1d3acea7a74d3429',
+        'PORT': 5432,
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
